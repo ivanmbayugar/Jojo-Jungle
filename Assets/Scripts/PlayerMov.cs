@@ -85,19 +85,19 @@ public class PlayerMov : MonoBehaviour
     //================================= INPUT ==========================================
     void JumpInput() //maneja el input de salto
     {
-        if (Input.GetKeyDown(KeyCode.Space) && (Input.GetKey(KeyCode.DownArrow) && grounded))
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && grounded)
         {
             StartCoroutine(DropThroughPlatform());
             return;
         } 
 
-        if (Input.GetKeyDown(KeyCode.Space) && coyoteCounter > 0f)
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && coyoteCounter > 0f)
         {
             Jump();
             coyoteCounter = 0f;
         }
 
-        if(Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0f && !jumpCutApplied)
+        if((Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W)) && rb.velocity.y > 0f && !jumpCutApplied)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCutter);
             jumpCutApplied = true;
@@ -159,7 +159,7 @@ public class PlayerMov : MonoBehaviour
     //================================= SHOOT ==========================================
     void ShootHandler() //maneja el disparo con cooldown
     {
-        if (Input.GetKey(KeyCode.Z) && Time.time >  lastShoot + cooldown)
+        if ((Input.GetKey(KeyCode.Z) || Input.GetMouseButton(0)) && Time.time >  lastShoot + cooldown)
         {
             Shoot();
             lastShoot = Time.time;
